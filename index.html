@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+  <title>SARA</title>
+  <meta name="generator" content="Jekyll v3.9.0">
+  <meta property="og:title" content="SARAc">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="summary">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+  <section class="page-header">
+
+
+
+  </section>
+
+  <section class="main-content">
+    <h1 id="">
+      <center>SARA: A Dual-Stream VAE for High-Fidelity Speech Generation via Integrating Semantic and Acoustic Representations</center>
+    </h1>
+
+    <p></p>
+
+
+    <h2>0. Contents</h2>
+    <ol>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#TTS">Samples on SARA-based F5-TTS-small: Comparison with Models </a></li>
+      <li><a href="#Comprison">Samples on Speech Reconstruction: Comparison with Models </a></li>
+      <li><a href="#ablation">Ablation</a></li>
+    </ol>
+
+    <br><br>
+    <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
+    <p> 
+      Zero-shot text-to-speech (TTS) relies on robust speech representations. However, current speech tokenizers face a fundamental trade-off: acoustic codecs preserve high-fidelity audio but lack linguistic constraints, causing content errors during generation, whereas semantic tokens from self-supervised learning (SSL) models ensure precise text alignment but discard some acoustic information. To bridge this gap, we propose SARA, a dual-stream VAE that directly fuses a frozen SSL semantic anchor with a dedicated residual acoustic encoder. This effectively mitigates the dilemma, creating an efficient and compact latent space without relying on complex regularizers. SARA achieves superior reconstruction quality over strong baselines. Furthermore, in downstream zero-shot TTS tasks, it yields highly natural and expressive synthesis quality, and maintains robust generation performance even under accelerated inference, offering a favorable trade-off between synthesis speed and computational cost.
+    </p>
+
+    <!-- <br><br> -->
+
+    <center><img src='image.png' style="width: auto;height: auto;max-width: 80%;"></center>
+    <div align="center"><b>Fig.1</b> The architecture of SARA.</div>
+
+    <!-- <br><br> -->
+
+    <h2 id="TTS">2. Samples on SARA-based F5-TTS-small: Comparison with Models <a name="Comprison"></a></h2>
+
+    <table>
+      <tr><th>PromptWav</th><th>GroundTruth</th><th>SARA-F5-Small</th><th>SARA-F5-Base</th><th>Cosyvoice</th></tr>
+      <tr>
+      <td><audio controls><source src="audio/prompt/61-70970-0016.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gt/61-70968-0000.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA/61-70968-0000.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA_Base/61-70968-0000.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/Cosyvoice/61-70968-0000.wav" type="audio/wav"></audio></td>
+      <tr>
+        <td><audio controls><source src="audio/prompt/672-122797-0000.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gt/672-122797-0007.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gen/SARA/672-122797-0007.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gen/SARA_Base/672-122797-0007.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gen/Cosyvoice/672-122797-0007.wav" type="audio/wav"></audio></td></tr></tr>
+      <tr>
+      <td><audio controls><source src="audio/prompt/4507-16021-0005.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gt/4507-16021-0053.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA/4507-16021-0053.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA_Base/4507-16021-0053.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gen/Cosyvoice/4507-16021-0053.wav" type="audio/wav"></audio></td></tr></tr>
+      <tr>
+      <td><audio controls><source src="audio/prompt/7176-92135-0024.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gt/7176-88083-0003.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA/7176-88083-0003.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA_Base/7176-88083-0003.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/gen/Cosyvoice/7176-88083-0003.wav" type="audio/wav"></audio></td></tr></tr>
+      <tr>
+      <td><audio controls><source src="audio/prompt/8224-274384-0003.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gt/8224-274384-0009.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA/8224-274384-0009.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA_Base/8224-274384-0009.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/Cosyvoice/8224-274384-0009.wav" type="audio/wav"></audio></td></tr></tr>
+      <tr>
+      <td><audio controls><source src="audio/prompt/8230-279154-0032.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gt/8230-279154-0026.flac" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA/8230-279154-0026.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/SARA_Base/8230-279154-0026.wav" type="audio/wav"></audio></td>
+      <td><audio controls><source src="audio/gen/Cosyvoice/8230-279154-0026.wav" type="audio/wav"></audio></td></tr></tr>
+      <tr>
+      </table>
+      <h2 id="Comprison">3.Samples on Speech Reconstruction<a name="Ablation"></a></h2>
+      <table>
+        <tr><th>GroundTruth</th><th>SARA</th><th>Semantic-VAE</th><th>Vanilla VAE</th></tr>
+        <tr>
+        <td><audio controls><source src="audio/recon/gt/2094-142345-0040.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/SARA/2094-142345-0040.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/semantic-vae/2094-142345-0040.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/VAE/2094-142345-0040.wav" type="audio/wav"></audio></td>
+        <tr>
+          <td><audio controls><source src="audio/recon/gt/260-123440-0001.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/recon/SARA/2094-142345-0040.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/recon/semantic-vae/260-123440-0001.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/recon/VAE/260-123440-0001.wav" type="audio/wav"></audio></td></tr></tr>
+        <tr>
+        <td><audio controls><source src="audio/recon/gt/260-123440-0002.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/SARA/260-123440-0002.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/semantic-vae/260-123440-0002.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/VAE/260-123440-0002.wav" type="audio/wav"></audio></td></tr></tr>
+        <tr>
+        <td><audio controls><source src="audio/recon/gt/3575-170457-0046.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/SARA/3575-170457-0046.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/semantic-vae/3575-170457-0046.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/VAE/3575-170457-0046.wav" type="audio/wav"></audio></td></tr></tr>
+        <tr>
+        <td><audio controls><source src="audio/recon/gt/8555-284449-0003.flac" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/SARA/8555-284449-0003.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/semantic-vae/8555-284449-0003.wav" type="audio/wav"></audio></td>
+        <td><audio controls><source src="audio/recon/VAE/8555-284449-0003.wav" type="audio/wav"></audio></td></tr></tr>
+        <tr>
+
+        </table>
+      
+      <h2 id="ablation">3.Ablation<a name="Ablation"></a></h2>
+
+      <table>
+        <tr><th>GroundTruth</th><th>SARA</th><th>SARA w/o Residual Encoder</th></tr>
+        <tr>
+          <td><audio controls><source src="audio/ablation/gt/1089-134691-0008.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA/1089-134691-0008.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA_WO_RES/1089-134691-0008.wav" type="audio/wav"></audio></td></tr>
+        <tr>
+          <td><audio controls><source src="audio/ablation/gt/1580-141084-0007.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA/1580-141084-0007.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA_WO_RES/1580-141084-0007.wav" type="audio/wav"></audio></td></tr>
+        <tr>
+          <td><audio controls><source src="audio/ablation/gt/2094-142345-0025.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA/2094-142345-0025.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA_WO_RES/2094-142345-0025.wav" type="audio/wav"></audio></td></tr>
+        <tr>
+          <td><audio controls><source src="audio/ablation/gt/260-123288-0020.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA/260-123288-0020.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA_WO_RES/260-123288-0020.wav" type="audio/wav"></audio></td></tr>
+        <tr>
+          <td><audio controls><source src="audio/ablation/gt/3575-170457-0010.flac" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA/3575-170457-0010.wav" type="audio/wav"></audio></td>
+          <td><audio controls><source src="audio/ablation/SARA_WO_RES/3575-170457-0010.wav" type="audio/wav"></audio></td></tr>
+      </table>
+        
+
+        
+    <footer class="site-footer">
+
+      <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub
+          Pages</a>.</span>
+    </footer>
+  </section>
+</body>
+
+</html>
